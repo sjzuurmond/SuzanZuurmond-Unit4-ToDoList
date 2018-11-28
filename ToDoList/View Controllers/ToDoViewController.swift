@@ -14,6 +14,7 @@ class ToDoViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if let todo = todo {
             navigationItem.title = "To-Do"
             titleTextField.text = todo.title
@@ -39,6 +40,41 @@ class ToDoViewController: UITableViewController {
         let notes = notesTextView.text
         
         todo = ToDo(title: title, isComplete: isComplete, dueDate: dueDate, notes: notes)
+    }
+    
+    var isEndDatePickerHidden = true
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt
+        indexPath: IndexPath) -> CGFloat {
+        let normalCellHeight = CGFloat(44)
+        let largeCellHeight = CGFloat(200)
+        
+        switch(indexPath) {
+        case [1,0]: //Due Date Cell
+            return isEndDatePickerHidden ? normalCellHeight :
+            largeCellHeight
+            
+        case [2,0]: //Notes Cell
+            return largeCellHeight
+            
+        default: return normalCellHeight
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt
+        indexPath: IndexPath) {
+        switch (indexPath) {
+        case [1,0]:
+            isEndDatePickerHidden = !isEndDatePickerHidden
+            
+            dueDateLabel.textColor =
+                isEndDatePickerHidden ? .black : tableView.tintColor
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            
+        default: break
+        }
     }
     
     func updateDueDateLabel(date: Date) {

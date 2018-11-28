@@ -80,5 +80,4 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
             ToDo.saveToDos(todos)
         }
     }
-    
 }
